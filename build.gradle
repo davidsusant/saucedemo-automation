@@ -10,11 +10,12 @@ repositories {
 }
 
 ext {
-
+    seleniumVersion = '4.15.0'
 }
 
 dependencies {
-
+    // Selenium
+    testImplementation "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
 }
 
 test {
