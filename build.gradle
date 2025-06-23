@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 group 'com.saucedemo'
@@ -11,13 +12,41 @@ repositories {
 
 ext {
     seleniumVersion = '4.15.0'
+    cucumberVersion = '7.14.0'
+    testngVersion = '7.8.0'
+    allureVersion = '2.24.0'
+    webdrivermanagerVersion = '5.6.2'
+    slf4jVersion = '2.0.9'
 }
 
 dependencies {
     // Selenium
     testImplementation "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
+    testImplementation "io.github.bonigarcia:webdrivermanager:${webdrivermanagerVersion}"
+
+    // TestNG
+    testImplementation "org.testng:testng:${testngVersion}"
+
+    // Cucumber
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-testng:${testngVersion}"
+
+    // Allure
+    testImplementation "io.qameta.allure:allure-testng:${testngVersion}"
+    testImplementation "io.qameta.allure:allure-cucumber7-jvm:${allureVersion}"
+
+    // Logging
+    testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    testImplementation "org.slf4j:slf4j-simple:${slf4jVersion}"
 }
 
 test {
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+    systemProperty 'allure.results.directory', 'build/allure-results'
+}
 
+allure {
+    version = allureVersion
 }
