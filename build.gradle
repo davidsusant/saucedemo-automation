@@ -54,7 +54,9 @@ dependencies {
 }
 
 test {
-    useTestNG()
+    useTestNG {
+        listeners << 'com.saucedemo.listeners.TestSuiteListener'
+    }
 
     systemProperty 'allure.results.directory', 'build/allure-results'
 
@@ -87,4 +89,22 @@ allure {
     version = allureVersion
 }
 
-test.finalizedBy allureServe
+// Task to generate static Allure report
+task generateAllureReport {
+    dependsOn test
+    doLast {
+        exec {
+            commandLine 'allure', 'generate', 'build/allure-results', '--clean', '-o', 'build/allure-report'
+        }
+    }
+}
+
+// Task to open static report in browser
+task openAllureReport {
+    dependsOn generateAllureReport
+    doLast {
+        exec {
+            commandLine 'allure', 'open', 'build/allure-report', '--port', '8088'
+        }
+    }
+}
