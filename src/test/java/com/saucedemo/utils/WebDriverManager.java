@@ -9,10 +9,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebDriverManager {
-    private static ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private static ConfigReader configReader = new ConfigReader();
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private static final ConfigReader configReader = new ConfigReader();
 
     public static WebDriver getDriver() {
         if (driverThreadLocal.get() == null) {
@@ -55,6 +57,25 @@ public class WebDriverManager {
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");
                 }
+
+                chromeOptions.addArguments("--disable-password-manager-reauthentication");
+                chromeOptions.addArguments("--disable-save-password-bubble");
+                chromeOptions.addArguments("--disable-password-generation");
+                chromeOptions.addArguments("--disable-features=PasswordManager");
+                chromeOptions.addArguments("--disable-features=PasswordGeneration");
+                chromeOptions.addArguments("--disable-features=AutofillPasswordManager");
+                chromeOptions.addArguments("--disable-blink-features=AutomaticPasswordGeneration");
+
+                Map<String, Object> prefs = new HashMap<>();
+                prefs.put("credentials_enable_service", false);
+                prefs.put("password_manager_enabled", false);
+                prefs.put("profile.password_manager_enabled", false);
+                prefs.put("profile.default_content_settings.popups", 0);
+                prefs.put("profile.default_content_setting_values.notifications", 2);
+                prefs.put("autofill.profile_enabled", false);
+                prefs.put("autofill.credit_card_enabled", false);
+                chromeOptions.setExperimentalOption("prefs", prefs);
+
                 driver = new ChromeDriver(chromeOptions);
                 break;
         }

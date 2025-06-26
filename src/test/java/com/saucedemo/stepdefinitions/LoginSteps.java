@@ -1,4 +1,4 @@
-package com.saucedemo.steps;
+package com.saucedemo.stepdefinitions;
 
 import com.saucedemo.pages.LoginPage;
 import com.saucedemo.pages.ProductsPage;
