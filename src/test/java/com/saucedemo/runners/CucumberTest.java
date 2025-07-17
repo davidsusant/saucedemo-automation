@@ -1,11 +1,9 @@
 package com.saucedemo.runners;
 
+import com.saucedemo.listeners.TestSuiteListener;
 import io.cucumber.testng.CucumberOptions;
 import io.cucumber.testng.TestNGCucumberRunner;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 @CucumberOptions(
         features = "src/test/resources/features",
@@ -16,9 +14,10 @@ import org.testng.annotations.Test;
                 "json:build/cucumber-reports/cucumber.json",
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
-        monochrome = true,
-        tags = "@smoke"
+        monochrome = true
+//        tags = "@smoke"
 )
+@Listeners({TestSuiteListener.class}) // Add this line to register the listener
 public class CucumberTest {
 
     private TestNGCucumberRunner testNGCucumberRunner;

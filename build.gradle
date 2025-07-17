@@ -67,22 +67,22 @@ test {
         showStandardStreams = true
     }
 
-    delete 'build/allure-results'
+//    delete 'build/allure-results'
 
-    // Show test execution details
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: $descriptor")
-    }
+//    // Show test execution details
+//    beforeTest { descriptor ->
+//        logger.lifecycle("Running test: $descriptor")
+//    }
 
-    // Show results summary
-    afterSuite { desc, result ->
-        if (!desc.parent) {
-            logger.lifecycle("Tests run: ${result.testCount}, " +
-                    "Passed: ${result.successfulTestCount}, " +
-                    "Failed: ${result.failedTestCount}, " +
-                    "Skipped: ${result.skippedTestCount}")
-        }
-    }
+//    // Show results summary
+//    afterSuite { desc, result ->
+//        if (!desc.parent) {
+//            logger.lifecycle("Tests run: ${result.testCount}, " +
+//                    "Passed: ${result.successfulTestCount}, " +
+//                    "Failed: ${result.failedTestCount}, " +
+//                    "Skipped: ${result.skippedTestCount}")
+//        }
+//    }
 }
 
 allure {
@@ -104,7 +104,11 @@ task openAllureReport {
     dependsOn generateAllureReport
     doLast {
         exec {
-            commandLine 'allure', 'open', 'build/allure-report', '--port', '8088'
+            commandLine 'allure', 'open', 'build/allure-report', '--port', '4444'
         }
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["-Xlint:deprecation"]
 }
