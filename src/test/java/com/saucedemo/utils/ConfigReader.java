@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigReader {
-    private Properties properties;
+    private final Properties properties;
     private static final String CONFIG_PATH = "src/test/resources/config/config.properties";
 
     public ConfigReader() {

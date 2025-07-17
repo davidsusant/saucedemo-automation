@@ -16,8 +16,15 @@ public class LoginSteps {
     @Given("I am on the login page")
     @Step("Navigate to login page")
     public void i_am_on_the_login_page() {
-        loginPage = new LoginPage(WebDriverManager.getDriver());
-        Assert.assertTrue(loginPage.isLoginPageDisplayed(), "Login page is not displayed");
+        // WebDriver will handle navigation to the application URL
+        loginPage = new LoginPage(WebDriverManager.getDriverAndNavigate());
+
+        // Ad debug information
+        System.out.println("Current URL: " + WebDriverManager.getCurrentUrl());
+        System.out.println("Page Title: " + WebDriverManager.getPageTitle());
+
+        // Verify login page is displayed
+        Assert.assertTrue(loginPage.isLoginPageDisplayed(), "Login page is not displayed. Current URL: " + WebDriverManager.getCurrentUrl());
     }
 
     @When("I enter username {string} and password {string}")
